@@ -32,8 +32,8 @@
             this.EndDtp = new System.Windows.Forms.DateTimePicker();
             this.QueryBtn = new System.Windows.Forms.Button();
             this.ResultGv = new System.Windows.Forms.DataGridView();
+            this.SELbl = new System.Windows.Forms.Label();
             this.DtpLbl = new System.Windows.Forms.Label();
-            this.Lbl = new System.Windows.Forms.Label();
             this.ObservatoryLbl = new System.Windows.Forms.Label();
             this.LocationCb = new System.Windows.Forms.ComboBox();
             this.ClearBtn = new System.Windows.Forms.Button();
@@ -43,6 +43,7 @@
             this.ModeSlimRb = new System.Windows.Forms.RadioButton();
             this.StartCb = new System.Windows.Forms.ComboBox();
             this.EndCb = new System.Windows.Forms.ComboBox();
+            this.CbLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ResultGv)).BeginInit();
             this.ModeGp.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +51,7 @@
             // StartDtp
             // 
             this.StartDtp.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.StartDtp.Location = new System.Drawing.Point(71, 3);
+            this.StartDtp.Location = new System.Drawing.Point(71, 44);
             this.StartDtp.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
             this.StartDtp.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
             this.StartDtp.Name = "StartDtp";
@@ -60,7 +61,7 @@
             // EndDtp
             // 
             this.EndDtp.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.EndDtp.Location = new System.Drawing.Point(304, 3);
+            this.EndDtp.Location = new System.Drawing.Point(304, 44);
             this.EndDtp.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
             this.EndDtp.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
             this.EndDtp.Name = "EndDtp";
@@ -81,37 +82,37 @@
             // ResultGv
             // 
             this.ResultGv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ResultGv.Location = new System.Drawing.Point(12, 110);
+            this.ResultGv.Location = new System.Drawing.Point(12, 156);
             this.ResultGv.Name = "ResultGv";
             this.ResultGv.RowTemplate.Height = 24;
-            this.ResultGv.Size = new System.Drawing.Size(1060, 439);
+            this.ResultGv.Size = new System.Drawing.Size(1060, 393);
             this.ResultGv.TabIndex = 3;
+            // 
+            // SELbl
+            // 
+            this.SELbl.AutoSize = true;
+            this.SELbl.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.SELbl.Location = new System.Drawing.Point(24, 50);
+            this.SELbl.Name = "SELbl";
+            this.SELbl.Size = new System.Drawing.Size(41, 20);
+            this.SELbl.TabIndex = 4;
+            this.SELbl.Text = "起訖";
             // 
             // DtpLbl
             // 
             this.DtpLbl.AutoSize = true;
             this.DtpLbl.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.DtpLbl.Location = new System.Drawing.Point(24, 9);
+            this.DtpLbl.Location = new System.Drawing.Point(277, 50);
             this.DtpLbl.Name = "DtpLbl";
-            this.DtpLbl.Size = new System.Drawing.Size(41, 20);
-            this.DtpLbl.TabIndex = 4;
-            this.DtpLbl.Text = "起訖";
-            // 
-            // Lbl
-            // 
-            this.Lbl.AutoSize = true;
-            this.Lbl.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Lbl.Location = new System.Drawing.Point(277, 9);
-            this.Lbl.Name = "Lbl";
-            this.Lbl.Size = new System.Drawing.Size(21, 20);
-            this.Lbl.TabIndex = 5;
-            this.Lbl.Text = "~";
+            this.DtpLbl.Size = new System.Drawing.Size(21, 20);
+            this.DtpLbl.TabIndex = 5;
+            this.DtpLbl.Text = "~";
             // 
             // ObservatoryLbl
             // 
             this.ObservatoryLbl.AutoSize = true;
             this.ObservatoryLbl.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.ObservatoryLbl.Location = new System.Drawing.Point(8, 42);
+            this.ObservatoryLbl.Location = new System.Drawing.Point(8, 9);
             this.ObservatoryLbl.Name = "ObservatoryLbl";
             this.ObservatoryLbl.Size = new System.Drawing.Size(57, 20);
             this.ObservatoryLbl.TabIndex = 6;
@@ -121,7 +122,7 @@
             // 
             this.LocationCb.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.LocationCb.FormattingEnabled = true;
-            this.LocationCb.Location = new System.Drawing.Point(71, 42);
+            this.LocationCb.Location = new System.Drawing.Point(71, 9);
             this.LocationCb.Name = "LocationCb";
             this.LocationCb.Size = new System.Drawing.Size(200, 28);
             this.LocationCb.TabIndex = 7;
@@ -143,7 +144,7 @@
             this.QueryTypeCb.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.QueryTypeCb.FormattingEnabled = true;
             this.QueryTypeCb.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.QueryTypeCb.Location = new System.Drawing.Point(304, 42);
+            this.QueryTypeCb.Location = new System.Drawing.Point(304, 9);
             this.QueryTypeCb.Name = "QueryTypeCb";
             this.QueryTypeCb.Size = new System.Drawing.Size(200, 28);
             this.QueryTypeCb.TabIndex = 9;
@@ -188,7 +189,7 @@
             // 
             this.StartCb.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.StartCb.FormattingEnabled = true;
-            this.StartCb.Location = new System.Drawing.Point(71, 4);
+            this.StartCb.Location = new System.Drawing.Point(71, 79);
             this.StartCb.Name = "StartCb";
             this.StartCb.Size = new System.Drawing.Size(200, 28);
             this.StartCb.TabIndex = 11;
@@ -198,17 +199,28 @@
             // 
             this.EndCb.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.EndCb.FormattingEnabled = true;
-            this.EndCb.Location = new System.Drawing.Point(304, 4);
+            this.EndCb.Location = new System.Drawing.Point(304, 79);
             this.EndCb.Name = "EndCb";
             this.EndCb.Size = new System.Drawing.Size(200, 28);
             this.EndCb.TabIndex = 12;
             this.EndCb.Text = "請選擇結束時間";
+            // 
+            // CbLbl
+            // 
+            this.CbLbl.AutoSize = true;
+            this.CbLbl.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.CbLbl.Location = new System.Drawing.Point(277, 82);
+            this.CbLbl.Name = "CbLbl";
+            this.CbLbl.Size = new System.Drawing.Size(21, 20);
+            this.CbLbl.TabIndex = 13;
+            this.CbLbl.Text = "~";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 561);
+            this.Controls.Add(this.CbLbl);
             this.Controls.Add(this.EndCb);
             this.Controls.Add(this.StartCb);
             this.Controls.Add(this.ModeGp);
@@ -216,8 +228,8 @@
             this.Controls.Add(this.ClearBtn);
             this.Controls.Add(this.LocationCb);
             this.Controls.Add(this.ObservatoryLbl);
-            this.Controls.Add(this.Lbl);
             this.Controls.Add(this.DtpLbl);
+            this.Controls.Add(this.SELbl);
             this.Controls.Add(this.ResultGv);
             this.Controls.Add(this.QueryBtn);
             this.Controls.Add(this.EndDtp);
@@ -238,8 +250,8 @@
         private System.Windows.Forms.DateTimePicker EndDtp;
         private System.Windows.Forms.Button QueryBtn;
         private System.Windows.Forms.DataGridView ResultGv;
+        private System.Windows.Forms.Label SELbl;
         private System.Windows.Forms.Label DtpLbl;
-        private System.Windows.Forms.Label Lbl;
         private System.Windows.Forms.Label ObservatoryLbl;
         private System.Windows.Forms.ComboBox LocationCb;
         private System.Windows.Forms.Button ClearBtn;
@@ -249,6 +261,7 @@
         private System.Windows.Forms.RadioButton ModeSlimRb;
         private System.Windows.Forms.ComboBox StartCb;
         private System.Windows.Forms.ComboBox EndCb;
+        private System.Windows.Forms.Label CbLbl;
     }
 }
 

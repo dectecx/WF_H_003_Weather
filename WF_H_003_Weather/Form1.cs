@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Windows.Forms;
 using WF_H_003_Weather.Models;
@@ -30,7 +30,7 @@ namespace WF_H_003_Weather
 
             #region (每小時統計)起訖時間下拉單
             string[] hourArr = new string[24];
-            for(var i = 0; i < 24; i++)
+            for (var i = 0; i < 24; i++)
             {
                 hourArr[i] = i.ToString().PadLeft(2, '0') + ":00";
             }
@@ -58,8 +58,13 @@ namespace WF_H_003_Weather
             QueryTypeCb.Items.AddRange(queryType);
             #endregion
 
-            #region 設定顯示規則，預設選擇「每小時統計」
+            #region 設定顯示規則
+            // 預設選擇「每小時統計」
             QueryTypeCb.SelectedIndex = 0;
+            // 起始時間第一筆
+            StartCb.SelectedIndex = 0;
+            // 結束時間最後一筆
+            EndCb.SelectedIndex = EndCb.Items.Count - 1;
             #endregion
         }
 
@@ -99,12 +104,31 @@ namespace WF_H_003_Weather
             }
 
             // 查詢種類
-            if (QueryTypeCb.Text != "每小時統計" || QueryTypeCb.Text != "每日統計")
+            if (QueryTypeCb.Text != "每小時統計" && QueryTypeCb.Text != "每日統計")
             {
                 MessageBox.Show("請選擇查詢種類");
                 return;
             }
+
+            // 起訖邏輯
+            if (QueryTypeCb.Text == "每小時統計")
+            {
+                // 取時間前兩碼(小時)，轉成數字再做比較
+                int sm = Convert.ToInt32(StartCb.Text.Substring(0, 2));
+                int em = Convert.ToInt32(EndCb.Text.Substring(0, 2));
+                if (sm > em)
+                {
+                    MessageBox.Show("起始時間不可大於結束時間");
+                    return;
+                }
+            }
+            else if (QueryTypeCb.Text == "每日統計" && StartDtp.Value > EndDtp.Value)
+            {
+                MessageBox.Show("起始日期不可大於結束日期");
+                return;
+            }
             #endregion
+
         }
 
         /// <summary>
@@ -123,25 +147,41 @@ namespace WF_H_003_Weather
             // 依據選擇的查詢種類，顯示或隱藏對應的查詢元件
             if (QueryTypeCb.Text == "每小時統計")
             {
-                StartCb.Visible = true;
-                EndCb.Visible = true;
-                StartDtp.Visible = false;
+                SELbl.Visible = true;
+
+                // 起始日期維持顯示
+                StartDtp.Visible = true;
+                DtpLbl.Visible = false;
                 EndDtp.Visible = false;
+
+                StartCb.Visible = true;
+                CbLbl.Visible = true;
+                EndCb.Visible = true;
             }
             else if (QueryTypeCb.Text == "每日統計")
             {
-                StartCb.Visible = false;
-                EndCb.Visible = false;
+                SELbl.Visible = true;
+
                 StartDtp.Visible = true;
+                DtpLbl.Visible = true;
                 EndDtp.Visible = true;
+
+                StartCb.Visible = false;
+                CbLbl.Visible = false;
+                EndCb.Visible = false;
             }
             else
             {
                 // 都沒選擇的話就全部隱藏
-                StartCb.Visible = false;
-                EndCb.Visible = false;
+                SELbl.Visible = false;
+
                 StartDtp.Visible = false;
+                DtpLbl.Visible = false;
                 EndDtp.Visible = false;
+
+                StartCb.Visible = false;
+                CbLbl.Visible = false;
+                EndCb.Visible = false;
             }
         }
     }
