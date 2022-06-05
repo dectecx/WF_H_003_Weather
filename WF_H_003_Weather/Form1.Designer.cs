@@ -52,26 +52,29 @@
             // 
             this.StartDtp.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.StartDtp.Location = new System.Drawing.Point(71, 44);
-            this.StartDtp.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.StartDtp.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
+            this.StartDtp.MaxDate = new System.DateTime(2022, 6, 4, 0, 0, 0, 0);
+            this.StartDtp.MinDate = new System.DateTime(2022, 5, 5, 0, 0, 0, 0);
             this.StartDtp.Name = "StartDtp";
             this.StartDtp.Size = new System.Drawing.Size(200, 29);
             this.StartDtp.TabIndex = 0;
+            this.StartDtp.Value = new System.DateTime(2022, 5, 5, 0, 0, 0, 0);
             // 
             // EndDtp
             // 
             this.EndDtp.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.EndDtp.Location = new System.Drawing.Point(304, 44);
-            this.EndDtp.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.EndDtp.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
+            this.EndDtp.MaxDate = new System.DateTime(2022, 6, 4, 0, 0, 0, 0);
+            this.EndDtp.MinDate = new System.DateTime(2022, 5, 5, 0, 0, 0, 0);
             this.EndDtp.Name = "EndDtp";
             this.EndDtp.Size = new System.Drawing.Size(200, 29);
             this.EndDtp.TabIndex = 1;
+            this.EndDtp.Value = new System.DateTime(2022, 6, 4, 0, 0, 0, 0);
             // 
             // QueryBtn
             // 
+            this.QueryBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.QueryBtn.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.QueryBtn.Location = new System.Drawing.Point(712, 2);
+            this.QueryBtn.Location = new System.Drawing.Point(683, 23);
             this.QueryBtn.Name = "QueryBtn";
             this.QueryBtn.Size = new System.Drawing.Size(177, 68);
             this.QueryBtn.TabIndex = 2;
@@ -84,11 +87,12 @@
             this.ResultGv.AllowUserToAddRows = false;
             this.ResultGv.AllowUserToDeleteRows = false;
             this.ResultGv.AllowUserToOrderColumns = true;
+            this.ResultGv.BackgroundColor = System.Drawing.Color.SlateGray;
             this.ResultGv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ResultGv.Location = new System.Drawing.Point(12, 156);
+            this.ResultGv.Location = new System.Drawing.Point(12, 113);
             this.ResultGv.Name = "ResultGv";
             this.ResultGv.RowTemplate.Height = 24;
-            this.ResultGv.Size = new System.Drawing.Size(1060, 393);
+            this.ResultGv.Size = new System.Drawing.Size(1060, 436);
             this.ResultGv.TabIndex = 3;
             // 
             // SELbl
@@ -115,7 +119,7 @@
             // 
             this.ObservatoryLbl.AutoSize = true;
             this.ObservatoryLbl.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.ObservatoryLbl.Location = new System.Drawing.Point(8, 9);
+            this.ObservatoryLbl.Location = new System.Drawing.Point(8, 12);
             this.ObservatoryLbl.Name = "ObservatoryLbl";
             this.ObservatoryLbl.Size = new System.Drawing.Size(57, 20);
             this.ObservatoryLbl.TabIndex = 6;
@@ -133,8 +137,9 @@
             // 
             // ClearBtn
             // 
+            this.ClearBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ClearBtn.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.ClearBtn.Location = new System.Drawing.Point(895, 2);
+            this.ClearBtn.Location = new System.Drawing.Point(866, 23);
             this.ClearBtn.Name = "ClearBtn";
             this.ClearBtn.Size = new System.Drawing.Size(177, 68);
             this.ClearBtn.TabIndex = 8;
@@ -159,7 +164,7 @@
             this.ModeGp.Controls.Add(this.ModeOrigRb);
             this.ModeGp.Controls.Add(this.ModeSlimRb);
             this.ModeGp.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.ModeGp.Location = new System.Drawing.Point(576, 3);
+            this.ModeGp.Location = new System.Drawing.Point(535, 23);
             this.ModeGp.Name = "ModeGp";
             this.ModeGp.Size = new System.Drawing.Size(130, 67);
             this.ModeGp.TabIndex = 10;
@@ -175,6 +180,7 @@
             this.ModeOrigRb.TabIndex = 1;
             this.ModeOrigRb.Text = "原始完整資料";
             this.ModeOrigRb.UseVisualStyleBackColor = true;
+            this.ModeOrigRb.CheckedChanged += new System.EventHandler(this.ModeOrigRb_CheckedChanged);
             // 
             // ModeSlimRb
             // 
@@ -187,6 +193,7 @@
             this.ModeSlimRb.TabStop = true;
             this.ModeSlimRb.Text = "刪減過資料";
             this.ModeSlimRb.UseVisualStyleBackColor = true;
+            this.ModeSlimRb.CheckedChanged += new System.EventHandler(this.ModeSlimRb_CheckedChanged);
             // 
             // StartCb
             // 
@@ -222,6 +229,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(1084, 561);
             this.Controls.Add(this.CbLbl);
             this.Controls.Add(this.EndCb);
@@ -238,7 +246,7 @@
             this.Controls.Add(this.EndDtp);
             this.Controls.Add(this.StartDtp);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "30天觀測資料-局屬地面測站觀測資料模型";
             ((System.ComponentModel.ISupportInitialize)(this.ResultGv)).EndInit();
             this.ModeGp.ResumeLayout(false);
             this.ModeGp.PerformLayout();

@@ -25,13 +25,6 @@ namespace WF_H_003_Weather
         /// </summary>
         private Location[] _locationDatas { get; set; }
 
-        /// <summary>
-        /// 最後一次查詢時的模式 (slim/orig)
-        /// 若執行查詢時，模式與前次相同，就使用記憶體內的緩存資料
-        /// 若否，則重新讀檔
-        /// </summary>
-        private string _lastQueryMode { get; set; }
-
         public Form1()
         {
             InitializeComponent();
@@ -49,20 +42,11 @@ namespace WF_H_003_Weather
             #region 取得Json資料
             C_B0024_001Model model = GetJsonData();
             _locationDatas = model.cwbdata.resources.resource.data.surfaceObs.location;
-
-            // 更新最後查詢時的模式
-            string mode = ModeSlimRb.Checked ? "slim" : "orig";
-            _lastQueryMode = mode; 
             #endregion
 
             #region 取得所有觀測站名稱
-            List<string> locationNames = new List<string>();
-            foreach (Location item in _locationDatas)
-            {
-                string stationFullName = "(" + item.station.stationID + ") " + item.station.stationName;
-                locationNames.Add(stationFullName);
-            }
-            LocationCb.Items.AddRange(locationNames.ToArray());
+            string[] locationNames = GetLocationNames();
+            LocationCb.Items.AddRange(locationNames);
             #endregion
 
             #region 設定查詢種類下拉單
@@ -100,6 +84,23 @@ namespace WF_H_003_Weather
             // 轉成物件
             C_B0024_001Model model = JsonSerializer.Deserialize<C_B0024_001Model>(jsonString);
             return model;
+        }
+
+        /// <summary>
+        /// 取得觀測站名稱清單
+        /// </summary>
+        /// <returns></returns>
+        private string[] GetLocationNames()
+        {
+            #region 取得所有觀測站名稱
+            List<string> locationNames = new List<string>();
+            foreach (Location item in _locationDatas)
+            {
+                string stationFullName = "(" + item.station.stationID + ") " + item.station.stationName;
+                locationNames.Add(stationFullName);
+            }
+            return locationNames.ToArray();
+            #endregion
         }
 
         /// <summary>
@@ -147,19 +148,6 @@ namespace WF_H_003_Weather
                 return;
             }
             #endregion
-
-            // 最後一次查詢時的模式 (slim/orig)
-            // 若執行查詢時，模式與前次相同，就使用記憶體內的緩存資料
-            // 若否，則重新讀檔
-            string mode = ModeSlimRb.Checked ? "slim" : "orig";
-            if (mode != _lastQueryMode)
-            {
-                // 重新讀檔
-                C_B0024_001Model model = GetJsonData();
-                _locationDatas = model.cwbdata.resources.resource.data.surfaceObs.location;
-                // 更新最後查詢時的模式
-                _lastQueryMode = mode;
-            }
 
             #region 從資料包內找出該筆觀測站資料
             Location target = null;
@@ -410,6 +398,36 @@ namespace WF_H_003_Weather
                 }
             }
             #endregion
+        }
+
+        /// <summary>
+        /// 模式(Slim)選項按鈕
+        /// </summary>
+        private void ModeSlimRb_CheckedChanged(object sender, EventArgs e)
+        {
+            // 重新讀檔
+            C_B0024_001Model model = GetJsonData();
+            _locationDatas = model.cwbdata.resources.resource.data.surfaceObs.location;
+            // 清空當前觀測站下拉選單
+            LocationCb.Items.Clear();
+            // 更新觀測站下拉選單
+            string[] locationNames = GetLocationNames();
+            LocationCb.Items.AddRange(locationNames);
+        }
+
+        /// <summary>
+        /// 模式(Orig)選項按鈕
+        /// </summary>
+        private void ModeOrigRb_CheckedChanged(object sender, EventArgs e)
+        {
+            // 重新讀檔
+            C_B0024_001Model model = GetJsonData();
+            _locationDatas = model.cwbdata.resources.resource.data.surfaceObs.location;
+            // 清空當前觀測站下拉選單
+            LocationCb.Items.Clear();
+            // 更新觀測站下拉選單
+            string[] locationNames = GetLocationNames();
+            LocationCb.Items.AddRange(locationNames);
         }
     }
 }
