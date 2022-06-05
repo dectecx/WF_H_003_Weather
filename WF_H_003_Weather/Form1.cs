@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Windows.Forms;
 using WF_H_003_Weather.Models;
@@ -102,6 +103,13 @@ namespace WF_H_003_Weather
                 MessageBox.Show("請選擇模式");
                 return;
             }
+            
+            // 觀測站
+            if (LocationCb.Text.Contains("請選擇"))
+            {
+                MessageBox.Show("請選擇觀測站");
+                return;
+            }
 
             // 查詢種類
             if (QueryTypeCb.Text != "每小時統計" && QueryTypeCb.Text != "每日統計")
@@ -129,6 +137,48 @@ namespace WF_H_003_Weather
             }
             #endregion
 
+            #region 從資料包內找出該筆觀測站資料
+            Location target = null;
+            foreach (Location item in _locationDatas)
+            {
+                // 左括號位置
+                int left = LocationCb.Text.IndexOf("(");
+                // 右括號位置
+                int right = LocationCb.Text.IndexOf(")");
+                // Id長度，要多扣掉左邊括號1長度
+                int idLength = right - left - 1;
+                // 取得Id，從左括號的下一個位置開始
+                string currentId = LocationCb.Text.Substring(left + 1, idLength);
+                // 從資料包內找出該筆觀測站資料，找到並設定至暫存的target後，即可break離開迴圈
+                if (item.station.stationID == currentId)
+                {
+                    target = item;
+                    break;
+                }
+            }
+
+            if (target == null)
+            {
+                MessageBox.Show("查無資料");
+                return;
+            }
+            #endregion
+
+            // 清除Grid欄位
+            ResultGv.Columns.Clear();
+            // 清除Grid資料
+            ResultGv.Rows.Clear();
+            // 設定Grid欄位、資料
+            if (QueryTypeCb.Text == "每小時統計")
+            {
+                // 傳入每小時資料，並設定Grid
+                SetTimesGridView(target.stationObsTimes);
+            }
+            else
+            {
+                // 傳入每日資料，並設定Grid
+                SetDailyGridView(target.stationObsStatistics);
+            }
         }
 
         /// <summary>
@@ -136,6 +186,9 @@ namespace WF_H_003_Weather
         /// </summary>
         private void ClearBtn_Click(object sender, System.EventArgs e)
         {
+            // 清除Grid欄位
+            ResultGv.Columns.Clear();
+            // 清除Grid資料
             ResultGv.Rows.Clear();
         }
 
@@ -182,6 +235,65 @@ namespace WF_H_003_Weather
                 StartCb.Visible = false;
                 CbLbl.Visible = false;
                 EndCb.Visible = false;
+            }
+        }
+
+        /// <summary>
+        /// 取得「觀測站每小時觀測紀錄」欄位清單
+        /// </summary>
+        private void SetTimesGridView(Stationobstimes timesDatas)
+        {
+            #region 設定Grid欄位
+            string[] columns = new string[]
+            {
+                "時間", "氣壓", "溫度", "相對濕度",
+                "風速", "風向", "降雨量", "日照時間"
+            };
+            foreach (string column in columns)
+            {
+                ResultGv.Columns.Add(column, column);
+            }
+            #endregion
+
+            for (var i = 0; i < timesDatas.stationObsTime.Length; i++)
+            {
+                var item = timesDatas.stationObsTime[i];
+                ResultGv.Rows.Add();
+                ResultGv.Rows[i].Cells["時間"].Value = item.dataTime;
+                ResultGv.Rows[i].Cells["氣壓"].Value = item.weatherElements.stationPressure;
+                ResultGv.Rows[i].Cells["溫度"].Value = item.weatherElements.temperature;
+                ResultGv.Rows[i].Cells["相對濕度"].Value = item.weatherElements.relativeHumidity;
+                ResultGv.Rows[i].Cells["風速"].Value = item.weatherElements.windSpeed;
+                ResultGv.Rows[i].Cells["風向"].Value = item.weatherElements.windDirectionDescription;
+                ResultGv.Rows[i].Cells["降雨量"].Value = item.weatherElements.precipitation;
+                ResultGv.Rows[i].Cells["日照時間"].Value = item.weatherElements.sunshineDuration;
+            }
+        }
+
+        /// <summary>
+        /// 取得「觀測站每日觀測統計紀錄」欄位清單
+        /// </summary>
+        private void SetDailyGridView(Stationobsstatistics dailyDatas)
+        {
+            #region 設定Grid欄位
+            string[] columns = new string[]
+            {
+                "日期", "最大值", "最小值", "平均值"
+            };
+            foreach (string column in columns)
+            {
+                ResultGv.Columns.Add(column, column);
+            }
+            #endregion
+
+            for (var i = 0; i < dailyDatas.temperature.daily.Length; i++)
+            {
+                var item = dailyDatas.temperature.daily[i];
+                ResultGv.Rows.Add();
+                ResultGv.Rows[i].Cells["日期"].Value = item.dataDate;
+                ResultGv.Rows[i].Cells["最大值"].Value = item.maximum;
+                ResultGv.Rows[i].Cells["最小值"].Value = item.minimum;
+                ResultGv.Rows[i].Cells["平均值"].Value = item.mean;
             }
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WF_H_003_Weather.Models
+﻿namespace WF_H_003_Weather.Models
 {
     /// <summary>
     /// 30天觀測資料-局屬地面測站觀測資料模型
