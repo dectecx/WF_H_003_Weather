@@ -81,6 +81,9 @@
             // 
             // ResultGv
             // 
+            this.ResultGv.AllowUserToAddRows = false;
+            this.ResultGv.AllowUserToDeleteRows = false;
+            this.ResultGv.AllowUserToOrderColumns = true;
             this.ResultGv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ResultGv.Location = new System.Drawing.Point(12, 156);
             this.ResultGv.Name = "ResultGv";

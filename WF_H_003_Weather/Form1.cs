@@ -25,6 +25,13 @@ namespace WF_H_003_Weather
         /// </summary>
         private Location[] _locationDatas { get; set; }
 
+        /// <summary>
+        /// 最後一次查詢時的模式 (slim/orig)
+        /// 若執行查詢時，模式與前次相同，就使用記憶體內的緩存資料
+        /// 若否，則重新讀檔
+        /// </summary>
+        private string _lastQueryMode { get; set; }
+
         public Form1()
         {
             InitializeComponent();
@@ -42,6 +49,10 @@ namespace WF_H_003_Weather
             #region 取得Json資料
             C_B0024_001Model model = GetJsonData();
             _locationDatas = model.cwbdata.resources.resource.data.surfaceObs.location;
+
+            // 更新最後查詢時的模式
+            string mode = ModeSlimRb.Checked ? "slim" : "orig";
+            _lastQueryMode = mode; 
             #endregion
 
             #region 取得所有觀測站名稱
@@ -136,6 +147,19 @@ namespace WF_H_003_Weather
                 return;
             }
             #endregion
+
+            // 最後一次查詢時的模式 (slim/orig)
+            // 若執行查詢時，模式與前次相同，就使用記憶體內的緩存資料
+            // 若否，則重新讀檔
+            string mode = ModeSlimRb.Checked ? "slim" : "orig";
+            if (mode != _lastQueryMode)
+            {
+                // 重新讀檔
+                C_B0024_001Model model = GetJsonData();
+                _locationDatas = model.cwbdata.resources.resource.data.surfaceObs.location;
+                // 更新最後查詢時的模式
+                _lastQueryMode = mode;
+            }
 
             #region 從資料包內找出該筆觀測站資料
             Location target = null;
@@ -239,7 +263,7 @@ namespace WF_H_003_Weather
         }
 
         /// <summary>
-        /// 取得「觀測站每小時觀測紀錄」欄位清單
+        /// 設定「觀測站每小時觀測紀錄」GridView
         /// </summary>
         private void SetTimesGridView(Stationobstimes timesDatas)
         {
@@ -251,7 +275,18 @@ namespace WF_H_003_Weather
             };
             foreach (string column in columns)
             {
-                ResultGv.Columns.Add(column, column);
+                DataGridViewColumn gridViewColumn = new DataGridViewColumn()
+                {
+                    // 格子設定為一般的TextBox格子
+                    CellTemplate = new DataGridViewTextBoxCell(),
+                    // 資料行名稱
+                    Name = column,
+                    // 標題文字
+                    HeaderText = column,
+                    // 自動依據資料內容調整欄位寬度
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                };
+                ResultGv.Columns.Add(gridViewColumn);
             }
             #endregion
 
@@ -267,11 +302,19 @@ namespace WF_H_003_Weather
                 ResultGv.Rows[i].Cells["風向"].Value = item.weatherElements.windDirectionDescription;
                 ResultGv.Rows[i].Cells["降雨量"].Value = item.weatherElements.precipitation;
                 ResultGv.Rows[i].Cells["日照時間"].Value = item.weatherElements.sunshineDuration;
+
+                if (i >= 300 && timesDatas.stationObsTime.Length > 300)
+                {
+                    MessageBox.Show(
+                        "資料筆數共" + timesDatas.stationObsTime.Length + "筆" +
+                        "，因筆數過多，系統僅呈現前300筆");
+                    break;
+                }
             }
         }
 
         /// <summary>
-        /// 取得「觀測站每日觀測統計紀錄」欄位清單
+        /// 設定「觀測站每日觀測統計紀錄」GridView
         /// </summary>
         private void SetDailyGridView(Stationobsstatistics dailyDatas)
         {
@@ -282,7 +325,18 @@ namespace WF_H_003_Weather
             };
             foreach (string column in columns)
             {
-                ResultGv.Columns.Add(column, column);
+                DataGridViewColumn gridViewColumn = new DataGridViewColumn()
+                {
+                    // 格子設定為一般的TextBox格子
+                    CellTemplate = new DataGridViewTextBoxCell(),
+                    // 資料行名稱
+                    Name = column,
+                    // 標題文字
+                    HeaderText = column,
+                    // 自動依據資料內容調整欄位寬度
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
+                };
+                ResultGv.Columns.Add(gridViewColumn);
             }
             #endregion
 
@@ -294,6 +348,14 @@ namespace WF_H_003_Weather
                 ResultGv.Rows[i].Cells["最大值"].Value = item.maximum;
                 ResultGv.Rows[i].Cells["最小值"].Value = item.minimum;
                 ResultGv.Rows[i].Cells["平均值"].Value = item.mean;
+
+                if (i >= 300 && dailyDatas.temperature.daily.Length > 300)
+                {
+                    MessageBox.Show(
+                        "資料筆數共" + dailyDatas.temperature.daily.Length + "筆" +
+                        "，因筆數過多，系統僅呈現前300筆");
+                    break;
+                }
             }
         }
     }
