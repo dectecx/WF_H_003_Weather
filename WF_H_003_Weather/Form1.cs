@@ -133,9 +133,9 @@ namespace WF_H_003_Weather
             if (QueryTypeCb.Text == "每小時統計")
             {
                 // 取時間前兩碼(小時)，轉成數字再做比較
-                int sm = Convert.ToInt32(StartCb.Text.Substring(0, 2));
-                int em = Convert.ToInt32(EndCb.Text.Substring(0, 2));
-                if (sm > em)
+                int sh = Convert.ToInt32(StartCb.Text.Substring(0, 2));
+                int eh = Convert.ToInt32(EndCb.Text.Substring(0, 2));
+                if (sh > eh)
                 {
                     MessageBox.Show("起始時間不可大於結束時間");
                     return;
@@ -195,13 +195,62 @@ namespace WF_H_003_Weather
             // 設定Grid欄位、資料
             if (QueryTypeCb.Text == "每小時統計")
             {
-                // 傳入每小時資料，並設定Grid
-                SetTimesGridView(target.stationObsTimes);
+                #region 篩選資料
+                // 起訖日期
+                DateTime sd = StartDtp.Value;
+                // 起始時間(取時間前兩碼(小時)，轉成數字再做比較)
+                int sh = Convert.ToInt32(StartCb.Text.Substring(0, 2)); ;
+                // 結束時間(取時間前兩碼(小時)，轉成數字再做比較)
+                int eh = Convert.ToInt32(EndCb.Text.Substring(0, 2));
+                // 篩選後資料
+                List<Stationobstime> filter = new List<Stationobstime>();
+                for (int i = 0; i < target.stationObsTimes.stationObsTime.Length; i++)
+                {
+                    Stationobstime item = target.stationObsTimes.stationObsTime[i];
+                    // 由於C#無法直接轉換24:00:00這種格式，因此先手動將字串改成00:00:00
+                    if (item.dataTime.Contains("T24:"))
+                    {
+                        item.dataTime = item.dataTime.Replace("T24:", "T00:");
+                    }
+                    // 取得日期跟時間並轉換成日期格式
+                    string dtStr = item.dataTime;
+                    DateTime dt = Convert.ToDateTime(dtStr);
+                    // 判斷日期是否相同(避免會有時間問題，所以要用Date，只用日期部分判斷)、判斷時間是否在區間內
+                    if (dt.Date == sd.Date && dt.Hour >= sh && dt.Hour <= eh)
+                    {
+                        filter.Add(item);
+                    }
+                }
+                #endregion
+
+                // 傳入「篩選後」的每小時資料，並設定Grid
+                SetTimesGridView(filter.ToArray());
             }
             else
             {
-                // 傳入每日資料，並設定Grid
-                SetDailyGridView(target.stationObsStatistics);
+                #region 篩選資料
+                // 起始日期
+                DateTime sd = StartDtp.Value;
+                // 結束日期
+                DateTime ed = EndDtp.Value;
+                // 篩選後資料
+                List<Daily> filter = new List<Daily>();
+                for (int i = 0; i < target.stationObsStatistics.temperature.daily.Length; i++)
+                {
+                    Daily item = target.stationObsStatistics.temperature.daily[i];
+                    // 取得日期並轉換成日期格式
+                    string dtStr = item.dataDate;
+                    DateTime dt = Convert.ToDateTime(dtStr);
+                    // 判斷日期是否在區間內(避免會有時間問題，所以要用Date，只用日期部分判斷)
+                    if (dt.Date >= sd && dt.Date <= ed)
+                    {
+                        filter.Add(item);
+                    }
+                }
+                #endregion
+
+                // 傳入「篩選後」的每日資料，並設定Grid
+                SetDailyGridView(filter.ToArray());
             }
         }
 
@@ -265,7 +314,7 @@ namespace WF_H_003_Weather
         /// <summary>
         /// 設定「觀測站每小時觀測紀錄」GridView
         /// </summary>
-        private void SetTimesGridView(Stationobstimes timesDatas)
+        private void SetTimesGridView(Stationobstime[] timesDatas)
         {
             #region 設定Grid欄位
             string[] columns = new string[]
@@ -290,9 +339,10 @@ namespace WF_H_003_Weather
             }
             #endregion
 
-            for (var i = 0; i < timesDatas.stationObsTime.Length; i++)
+            #region 設定Grid資料
+            for (int i = 0; i < timesDatas.Length; i++)
             {
-                var item = timesDatas.stationObsTime[i];
+                Stationobstime item = timesDatas[i];
                 ResultGv.Rows.Add();
                 ResultGv.Rows[i].Cells["時間"].Value = item.dataTime;
                 ResultGv.Rows[i].Cells["氣壓"].Value = item.weatherElements.stationPressure;
@@ -303,20 +353,21 @@ namespace WF_H_003_Weather
                 ResultGv.Rows[i].Cells["降雨量"].Value = item.weatherElements.precipitation;
                 ResultGv.Rows[i].Cells["日照時間"].Value = item.weatherElements.sunshineDuration;
 
-                if (i >= 300 && timesDatas.stationObsTime.Length > 300)
+                if (i >= 300 && timesDatas.Length > 300)
                 {
                     MessageBox.Show(
-                        "資料筆數共" + timesDatas.stationObsTime.Length + "筆" +
+                        "資料筆數共" + timesDatas.Length + "筆" +
                         "，因筆數過多，系統僅呈現前300筆");
                     break;
                 }
             }
+            #endregion
         }
 
         /// <summary>
         /// 設定「觀測站每日觀測統計紀錄」GridView
         /// </summary>
-        private void SetDailyGridView(Stationobsstatistics dailyDatas)
+        private void SetDailyGridView(Daily[] dailyDatas)
         {
             #region 設定Grid欄位
             string[] columns = new string[]
@@ -340,23 +391,25 @@ namespace WF_H_003_Weather
             }
             #endregion
 
-            for (var i = 0; i < dailyDatas.temperature.daily.Length; i++)
+            #region 設定Grid資料
+            for (int i = 0; i < dailyDatas.Length; i++)
             {
-                var item = dailyDatas.temperature.daily[i];
+                Daily item = dailyDatas[i];
                 ResultGv.Rows.Add();
                 ResultGv.Rows[i].Cells["日期"].Value = item.dataDate;
                 ResultGv.Rows[i].Cells["最大值"].Value = item.maximum;
                 ResultGv.Rows[i].Cells["最小值"].Value = item.minimum;
                 ResultGv.Rows[i].Cells["平均值"].Value = item.mean;
 
-                if (i >= 300 && dailyDatas.temperature.daily.Length > 300)
+                if (i >= 300 && dailyDatas.Length > 300)
                 {
                     MessageBox.Show(
-                        "資料筆數共" + dailyDatas.temperature.daily.Length + "筆" +
+                        "資料筆數共" + dailyDatas.Length + "筆" +
                         "，因筆數過多，系統僅呈現前300筆");
                     break;
                 }
             }
+            #endregion
         }
     }
 }
