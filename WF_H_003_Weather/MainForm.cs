@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Windows.Forms;
 using WF_H_003_Weather.Models;
 
 namespace WF_H_003_Weather
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         /// <summary>
         /// Json檔名
@@ -25,7 +24,7 @@ namespace WF_H_003_Weather
         /// </summary>
         private Location[] _locationDatas { get; set; }
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -55,7 +54,9 @@ namespace WF_H_003_Weather
             #endregion
 
             #region 設定顯示規則
-            // 預設選擇「每小時統計」
+            // 觀測站預設選擇第一筆
+            LocationCb.SelectedIndex = 0;
+            // 查詢種類預設選擇「每小時統計」
             QueryTypeCb.SelectedIndex = 0;
             // 起始時間第一筆
             StartCb.SelectedIndex = 0;
@@ -115,7 +116,7 @@ namespace WF_H_003_Weather
                 MessageBox.Show("請選擇模式");
                 return;
             }
-            
+
             // 觀測站
             if (LocationCb.Text.Contains("請選擇"))
             {

@@ -1,6 +1,6 @@
 ﻿namespace WF_H_003_Weather
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 設計工具所需的變數。
@@ -169,15 +169,17 @@
             this.ModeGp.Size = new System.Drawing.Size(130, 67);
             this.ModeGp.TabIndex = 10;
             this.ModeGp.TabStop = false;
-            this.ModeGp.Text = "模式";
+            this.ModeGp.Text = "資料模式";
             // 
             // ModeOrigRb
             // 
             this.ModeOrigRb.AutoSize = true;
-            this.ModeOrigRb.Location = new System.Drawing.Point(6, 37);
+            this.ModeOrigRb.Checked = true;
+            this.ModeOrigRb.Location = new System.Drawing.Point(6, 42);
             this.ModeOrigRb.Name = "ModeOrigRb";
             this.ModeOrigRb.Size = new System.Drawing.Size(123, 24);
             this.ModeOrigRb.TabIndex = 1;
+            this.ModeOrigRb.TabStop = true;
             this.ModeOrigRb.Text = "原始完整資料";
             this.ModeOrigRb.UseVisualStyleBackColor = true;
             this.ModeOrigRb.CheckedChanged += new System.EventHandler(this.ModeOrigRb_CheckedChanged);
@@ -185,12 +187,10 @@
             // ModeSlimRb
             // 
             this.ModeSlimRb.AutoSize = true;
-            this.ModeSlimRb.Checked = true;
-            this.ModeSlimRb.Location = new System.Drawing.Point(6, 16);
+            this.ModeSlimRb.Location = new System.Drawing.Point(6, 21);
             this.ModeSlimRb.Name = "ModeSlimRb";
             this.ModeSlimRb.Size = new System.Drawing.Size(107, 24);
             this.ModeSlimRb.TabIndex = 0;
-            this.ModeSlimRb.TabStop = true;
             this.ModeSlimRb.Text = "刪減過資料";
             this.ModeSlimRb.UseVisualStyleBackColor = true;
             this.ModeSlimRb.CheckedChanged += new System.EventHandler(this.ModeSlimRb_CheckedChanged);
@@ -225,7 +225,7 @@
             this.CbLbl.TabIndex = 13;
             this.CbLbl.Text = "~";
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -245,7 +245,7 @@
             this.Controls.Add(this.QueryBtn);
             this.Controls.Add(this.EndDtp);
             this.Controls.Add(this.StartDtp);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "30天觀測資料-局屬地面測站觀測資料模型";
             ((System.ComponentModel.ISupportInitialize)(this.ResultGv)).EndInit();
             this.ModeGp.ResumeLayout(false);
