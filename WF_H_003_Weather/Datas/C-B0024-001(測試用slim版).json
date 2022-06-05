@@ -1,0 +1,311 @@
+{
+  "cwbdata": {
+    "@xsi:schemaLocation": "urn:cwb.gov.tw:cwbdata-0.1 https://opendata.cwb.gov.tw/XSD/CWB-data.xsd",
+    "@xmlns": "urn:cwb.gov.tw:cwbdata-0.1",
+    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+    "identifier": "7dbd2ddf-2e49-4c16-9057-06f25d0d01f1",
+    "datasetID": "S0001",
+    "datasetName": "過去氣象觀測",
+    "dataItemID": "S0001-01000",
+    "sender": "weather@cwb.gov.tw",
+    "sent": "2022-06-05T12:30:04+08:00",
+    "status": "Actual",
+    "scope": "Public",
+    "msgType": "Issue",
+    "publisherOID": "2.16.886.101.20003.20008.20004",
+    "resources": {
+      "resource": {
+        "metadata": {
+          "resourceID": "S0001-01000-003",
+          "resourceName": "中央氣象局氣候觀測_逐時_多要素氣象資料",
+          "resourceDescription": "氣象局所屬氣象觀測站，逐時的各項氣象因子資料。",
+          "language": "zh",
+          "homepage": "http://e-service.cwb.gov.tw/HistoryDataQuery/index.jsp",
+          "sources": {
+            "source": [
+              {
+                "title": "中央氣象局氣象測站代號及站況資料",
+                "path": "http://e-service.cwb.gov.tw/wdps/obs/state.htm"
+              },
+              {
+                "title": "Abbreviation for unit of measure - as defined within WMO No. 306 Common code-table C-6 1List of units for TDCFs1. (use wmo abbreviation)",
+                "path": "http://codes.wmo.int/common/unit"
+              }
+            ]
+          },
+          "temporal": {
+            "startTime": "2022-05-05T01:00:00+08:00",
+            "endTime": "2022-06-04T24:00:00+08:00"
+          },
+          "spatial": {
+            "description": "中央氣象局所屬氣象觀測站",
+            "coordinateReferenceSystem": {
+              "EPSGCode": "EPSG:4326",
+              "name": "WGS84",
+              "datum": "World Geodetic System 1984",
+              "coordinateFormat": "decimal degrees"
+            }
+          },
+          "weatherElements": {
+            "weatherElement": [
+              {
+                "tagName": "stationPressure",
+                "description": "測站氣壓",
+                "units": "hPa",
+                "specialValues": {
+                  "specialValue": [
+                    {
+                      "value": null,
+                      "description": "無觀測"
+                    },
+                    {
+                      "value": "X",
+                      "description": "故障"
+                    }
+                  ]
+                }
+              },
+              {
+                "tagName": "temperature",
+                "description": "溫度",
+                "units": "˚C",
+                "specialValues": {
+                  "specialValue": [
+                    {
+                      "value": null,
+                      "description": "無觀測"
+                    },
+                    {
+                      "value": "X",
+                      "description": "故障"
+                    }
+                  ]
+                }
+              },
+              {
+                "tagName": "relativeHumidity",
+                "description": "相對溼度",
+                "units": "%",
+                "specialValues": {
+                  "specialValue": [
+                    {
+                      "value": null,
+                      "description": "無觀測"
+                    },
+                    {
+                      "value": "X",
+                      "description": "故障"
+                    }
+                  ]
+                }
+              },
+              {
+                "tagName": "windSpeed",
+                "description": "風速",
+                "units": "m s^-1",
+                "specialValues": {
+                  "specialValue": [
+                    {
+                      "value": null,
+                      "description": "無觀測"
+                    },
+                    {
+                      "value": "X",
+                      "description": "故障"
+                    }
+                  ]
+                }
+              },
+              {
+                "tagName": "windDirectionDescription",
+                "description": "風向描述",
+                "format": "zh,en",
+                "specialValues": {
+                  "specialValue": [
+                    {
+                      "value": null,
+                      "description": "無觀測"
+                    },
+                    {
+                      "value": "X",
+                      "description": "故障"
+                    }
+                  ]
+                }
+              },
+              {
+                "tagName": "precipitation",
+                "description": "降水量",
+                "units": "mm",
+                "specialValues": {
+                  "specialValue": [
+                    {
+                      "value": null,
+                      "description": "無觀測"
+                    },
+                    {
+                      "value": "T",
+                      "description": "雨跡"
+                    },
+                    {
+                      "value": "X",
+                      "description": "故障"
+                    }
+                  ]
+                }
+              },
+              {
+                "tagName": "sunshineDuration",
+                "description": "日照時數",
+                "units": "hr",
+                "specialValues": {
+                  "specialValue": [
+                    {
+                      "value": null,
+                      "description": "無觀測"
+                    },
+                    {
+                      "value": "X",
+                      "description": "故障"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "statistics": {
+            "statisticalPeriods": {
+              "statisticalPeriod": {
+                "periodTagName": "daily",
+                "description": "每日統計(氣溫平均、最高、最低)"
+              }
+            },
+            "weatherElement": {
+              "tagName": "temperature",
+              "description": "溫度",
+              "units": "˚C",
+              "statisticalMethods": {
+                "statisticalMethod": [
+                  {
+                    "methodTagName": "minimum",
+                    "description": "當日溫度最小值"
+                  },
+                  {
+                    "methodTagName": "maximum",
+                    "description": "當日溫度最大值"
+                  },
+                  {
+                    "methodTagName": "mean",
+                    "description": "當日溫度平均值"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "data": {
+          "surfaceObs": {
+            "location": [
+              {
+                "station": {
+                  "stationID": "466880",
+                  "stationName": "板橋",
+                  "stationNameEN": "BANQIAO",
+                  "stationAttribute": "局屬有人氣象站"
+                },
+                "stationObsTimes": {
+                  "stationObsTime": [
+                    {
+                      "dataTime": "2022-05-05T01:00:00+08:00",
+                      "weatherElements": {
+                        "stationPressure": "1010.5",
+                        "temperature": "22.9",
+                        "relativeHumidity": "91",
+                        "windSpeed": "2.4",
+                        "windDirectionDescription": "東北東,ENE",
+                        "precipitation": "0.0",
+                        "sunshineDuration": null
+                      }
+                    },
+                    {
+                      "dataTime": "2022-05-05T02:00:00+08:00",
+                      "weatherElements": {
+                        "stationPressure": "1009.8",
+                        "temperature": "23.1",
+                        "relativeHumidity": "90",
+                        "windSpeed": "2.2",
+                        "windDirectionDescription": "東北東,ENE",
+                        "precipitation": "0.0",
+                        "sunshineDuration": null
+                      }
+                    }
+                  ]
+                },
+                "stationObsStatistics": {
+                  "temperature": {
+                    "daily": [
+                      {
+                        "dataDate": "2022-05-05",
+                        "maximum": "27.1",
+                        "minimum": "22.6",
+                        "mean": "24.1"
+                      },
+                      {
+                        "dataDate": "2022-05-06",
+                        "maximum": "29.2",
+                        "minimum": "22.1",
+                        "mean": "24.8"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "station": {
+                  "stationID": "466900",
+                  "stationName": "淡水",
+                  "stationNameEN": "TAMSUI",
+                  "stationAttribute": "局屬有人氣象站"
+                },
+                "stationObsTimes": {
+                  "stationObsTime": [
+                    {
+                      "dataTime": "2022-05-05T01:00:00+08:00",
+                      "weatherElements": {
+                        "stationPressure": "1009.6",
+                        "temperature": "22.8",
+                        "relativeHumidity": "89",
+                        "windSpeed": "0.9",
+                        "windDirectionDescription": "東,E",
+                        "precipitation": "0.0",
+                        "sunshineDuration": null
+                      }
+                    }
+                  ]
+                },
+                "stationObsStatistics": {
+                  "temperature": {
+                    "daily": [
+                      {
+                        "dataDate": "2022-05-05",
+                        "maximum": "24.8",
+                        "minimum": "21.8",
+                        "mean": "22.9"
+                      },
+                      {
+                        "dataDate": "2022-05-06",
+                        "maximum": "26.4",
+                        "minimum": "20.6",
+                        "mean": "23.2"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
